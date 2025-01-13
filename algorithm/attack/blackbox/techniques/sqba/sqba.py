@@ -304,6 +304,8 @@ class SQBA(HardLabelAttackBase):
         else:
             dist = np.max(abs(self.x - x_adv))
 
+        print("current loss:", dist.item())
+
         epsilon = 2.0 * dist / np.sqrt(self.iter_cnt + 1)
 
         while True:
@@ -322,6 +324,8 @@ class SQBA(HardLabelAttackBase):
 
         if epsilon < 1.0:
             # stop using updates from surrogate model
+            if self.white_only == True:
+                print("stop using updates from surrogate model and using zo update:")
             self.white_only = False
             x_best = x_adv
 
